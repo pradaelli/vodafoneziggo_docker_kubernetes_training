@@ -1,0 +1,20 @@
+services:
+  flask:
+    build: .
+    ports:
+      - "8080:5000"
+    environment:
+      PG_PASSWORD: long-distance-ice-skating
+    # volumes:
+    #   - .:/app
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:11-alpine
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: long-distance-ice-skating
+      # POSTGRES_DB: "public"
+    volumes:
+      - "./init-schema.sql:/docker-entrypoint-initdb.d/init-schema.sql"
