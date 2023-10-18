@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sunnybikes
+  namespace: sunnybikes
+spec:
+  containers:
+    - name: sunnybikes-api
+      image: pugillum/sunnybikes:stable
+      env:
+        - name: PG_PASSWORD
+          value: "long-distance-ice-skating"
+          # valueFrom:
+          #   secretKeyRef:
+          #     name: postgres-secret
+          #     key: POSTGRES_PASSWORD
+      readinessProbe:
+        httpGet:
+          port: 5000
+          path: /healthz
