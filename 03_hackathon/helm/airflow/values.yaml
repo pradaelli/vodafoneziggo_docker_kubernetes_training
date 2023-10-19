@@ -1,0 +1,26 @@
+dags:
+  persistence:
+    enabled: true
+
+logs:
+  persistence:
+    enabled: true
+
+webserver:
+  extraVolumes:
+    - name: dags
+      persistentVolumeClaim:
+        claimName: airflow-dags
+  extraVolumeMounts:
+    - mountPath: /opt/airflow/dags
+      name: dags
+
+executor: KubernetesExecutor
+
+dags:
+  gitSync:
+    enabled: true
+    repo: git@github.com:pradaelli/vodafoneziggo_docker_kubernetes_training.git
+    branch: main
+    subPath: "03_hackathon/helm/airflow/dags"
+    sshKeySecret: git-sync-secret
